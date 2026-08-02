@@ -18,7 +18,7 @@
     "tier": "0",
     "info": "I don't even know why she is still good.",
     "effect": "The duration of <span style='color: #60a5fa;'>[Continuous Action I]</span> is increased to 2 rounds.",
-    "img": "images/Flutterpage_ICON.webp",
+    "img": "./images/Flutterpage_Icon.webp",
     "badge": "P1"
   },
   {
@@ -29,7 +29,7 @@
     "tier": "0",
     "info": "WIP.",
     "effect": "WIP.",
-    "img": "images/Ramona_ICON.webp",
+    "img": "./images/Ramona_Icon.webp",
     "badge": "P1"
   },
   {
@@ -40,7 +40,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Corvus_ICON.webp",
+    "img": "./images/Corvus_Icon.webp",
     "badge": "P2"
   },
   {
@@ -51,7 +51,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Ramona_ICON.webp",
+    "img": "./images/Ramona_Icon.webp",
     "badge": "P2"
   },
   {
@@ -62,7 +62,7 @@
     "tier": "-",
     "info": "+30%",
     "effect": "",
-    "img": "images/Tooth_Fairy_ICON.webp",
+    "img": "./images/Tooth_Fairy_Icon.webp",
     "badge": "P2"
   },
   {
@@ -73,7 +73,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Tuesday_ICON.webp",
+    "img": "./images/Tuesday_Icon.webp",
     "badge": "P2"
   },
   {
@@ -84,7 +84,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Corvus_ICON.webp",
+    "img": "./images/Corvus_Icon.webp",
     "badge": "P1"
   },
   {
@@ -95,7 +95,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Brume_ICON.webp",
+    "img": "./images/Brume_Icon.webp",
     "badge": "P1"
   },
   {
@@ -106,7 +106,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Flutterpage_ICON.webp",
+    "img": "./images/Flutterpage_Icon.webp",
     "badge": "P3"
   },
   {
@@ -117,7 +117,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Igor_ICON.webp",
+    "img": "./images/Igor_Icon.webp",
     "badge": "P1"
   },
   {
@@ -128,7 +128,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Coppelia_ICON.webp",
+    "img": "./images/Coppelia_Icon.webp",
     "badge": "P1"
   },
   {
@@ -139,7 +139,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Coppelia_ICON.webp",
+    "img": "./images/Coppelia_Icon.webp",
     "badge": "P2"
   },
   {
@@ -150,7 +150,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Windsong_ICON.webp",
+    "img": "./images/Windsong_Icon.webp",
     "badge": "P2"
   },
   {
@@ -161,7 +161,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Windsong_ICON.webp",
+    "img": "./images/Windsong_Icon.webp",
     "badge": "P1"
   },
   {
@@ -172,7 +172,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Isolde_ICON.webp",
+    "img": "./images/Isolde_Icon.webp",
     "badge": "P1"
   },
   {
@@ -183,7 +183,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Isolde_ICON.webp",
+    "img": "./images/Isolde_Icon.webp",
     "badge": "P2"
   },
   {
@@ -194,7 +194,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Semmelweis_ICON.webp",
+    "img": "./images/Semmelweis_Icon.webp",
     "badge": "P1"
   },
   {
@@ -205,7 +205,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Rubuska_ICON.webp",
+    "img": "./images/Rubuska_Icon.webp",
     "badge": "P1"
   },
   {
@@ -216,7 +216,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Marsha_ICON.webp",
+    "img": "./images/Marsha_Icon.webp",
     "badge": "P1"
   },
   {
@@ -227,7 +227,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Fatutu_ICON.webp",
+    "img": "./images/Fatutu_Icon.webp",
     "badge": "P1",
     "note": "Euphoria Potential."
   },
@@ -239,7 +239,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Willow_ICON.webp",
+    "img": "./images/Willow_Icon.webp",
     "badge": "P1"
   },
   {
@@ -250,7 +250,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Kiperina_ICON.webp",
+    "img": "./images/Kiperina_Icon.webp",
     "badge": "P1"
   },
   {
@@ -261,7 +261,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Aleph_ICON.webp",
+    "img": "./images/Aleph_Icon.webp",
     "badge": "P1"
   },
   {
@@ -272,7 +272,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Barcarola_ICON.webp",
+    "img": "./images/Barcarola_Icon.webp",
     "badge": "P1"
   },
   {
@@ -283,7 +283,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Barcarola_ICON.webp",
+    "img": "./images/Barcarola_Icon.webp",
     "badge": "P2"
   },
   {
@@ -294,7 +294,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Aleph_ICON.webp",
+    "img": "./images/Aleph_Icon.webp",
     "badge": "P2"
   },
   {
@@ -305,7 +305,7 @@
     "tier": "-",
     "info": "-",
     "effect": "-",
-    "img": "images/Willow_ICON.webp",
+    "img": "./images/Willow_Icon.webp",
     "badge": "P2"
   }
 ]
