@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Character Power Distribution</title>
+
+<style>
+body {
+    margin: 0;
+    background: #000000;
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 95vh;
+}
+
+/* Styled Header Container */
+.header-container {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+h2 {
+    color: #f3f4f6;
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: 0.5px;
+    margin: 0 0 6px 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.header-subtitle {
+    color: #9ca3af;
+    font-size: 13px;
+    font-family: monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.chart-container {
+    position: relative;
+    width: 1050px;
+    height: 500px;
+    background: #070709;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.chart-plot-area {
+    position: absolute;
+    top: 0;
+    left: 35px;
+    right: 35px;
+    bottom: 25px;
+}
+
+.chart-baseline {
+    position: absolute;
+    bottom: 25px;
+    left: 35px;
+    right: 35px;
+    height: 2px;
+    background: #4b5563;
+}
+
+.axis-label {
+    position: absolute;
+    left: 35px;
+    right: 35px;
+    bottom: 5px;
+    height: 20px;
+}
+
+.axis-label span {
+    position: absolute;
+    transform: translateX(-50%);
+    color: #6b7280;
+    font-family: monospace;
+    font-size: 13px;
+}
+
+/* Character Markers & Stems */
+.char-marker {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    border: 2px solid #f59e0b;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #1f2937;
+    cursor: pointer;
+    transform: translateX(-50%);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 10;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.char-marker:hover {
+    transform: translateX(-50%) scale(1.2);
+    box-shadow: 0 0 18px rgba(245, 158, 11, 0.8);
+    z-index: 30;
+    border-color: #fbbf24;
+}
+
+.char-marker img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.char-stem {
+    position: absolute;
+    width: 1px;
+    background: rgba(75, 85, 99, 0.6);
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.portrait-badge {
+    position: absolute;
+    left: 2px;
+    bottom: 2px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid #f59e0b;
+    color: #f59e0b;
+    font-size: 9px;
+    padding: 1px 3px;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+.note-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: #ef4444;
+    border: 1px solid #f87171;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-family: monospace;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Rating label below character marker */
+.rating-label {
+    position: absolute;
+    transform: translateX(-50%);
+    color: #f59e0b;
+    font-size: 10px;
+    font-family: monospace;
+    font-weight: bold;
+    white-space: nowrap;
+    background: rgba(13, 15, 18, 0.9);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    z-index: 5;
+}
+
+/* Tooltip Styling */
+#global-tooltip {
+    position: absolute;
+    width: 340px;
+    pointer-events: none;
+    background: #16191e;
+    border: 1px solid #2d333b;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.9);
+    z-index: 999;
+    display: block;
+    opacity: 0;
+    transform: scale(0.4) translateY(20px);
+    transform-origin: left center;
+    visibility: hidden;
+    transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                visibility 0.3s;
+}
+
+#global-tooltip.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    visibility: visible;
+}
+
+.tooltip-header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #21262d;
+}
+
+.tooltip-header img {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    border: 1px solid #f59e0b;
+    object-fit: cover;
+}
+
+.tooltip-header h3 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+}
+
+.tooltip-header .tip-pts-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #38bdf8;
+}
+
+.tooltip-header .tip-pts-badge span.badge-box {
+    background: #f59e0b;
+    color: #0d0f12;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+/* Limit Break Progression Section inside Tooltip */
+.progression-section {
+    margin-top: 10px;
+}
+
+.progression-title {
+    font-size: 11px;
+    font-weight: bold;
+    color: #8b949e;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    font-family: monospace;
+}
+
+.progression-box {
+    background: #0d0f12;
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    padding: 10px 8px;
+    position: relative;
+    height: 125px;
+    overflow: hidden;
+}
+
+.prog-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.prog-nodes {
+    position: absolute;
+    inset: 10px;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.prog-node {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 36px;
+    opacity: 0;
+    transform: scale(0.5) translateY(15px);
+    transition: opacity 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.prog-node.animate-in {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+.node-badge {
+    background: #21262d;
+    border: 1px solid #f59e0b;
+    color: #f59e0b;
+    font-size: 9px;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 1px 4px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    text-align: center;
+}
+
+.node-dot {
+    width: 10px;
+    height: 10px;
+    background: #f59e0b;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+    margin-top: 2px;
+    margin-bottom: 6px;
+}
+
+.node-value {
+    font-size: 10px;
+    font-family: monospace;
+    color: #d1d5db;
+    white-space: nowrap;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.mini-stat-box {
+    padding: 8px 10px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid #2a2e39;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.mini-stat-box .mini-label {
+    color: #f59e0b;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.mini-stat-box .mini-value {
+    color: #d1d5db;
+    font-weight: bold;
+    display: block;
+}
+
+.effect-row {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid #2a2e39;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.effect-row .effect-label {
+    color: #f59e0b;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+.effect-row #tip-effect {
+    color: #d1d5db;
+    display: block;
+}
+
+.note-row {
+    margin-top: 10px;
+    padding: 8px 10px;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    border-radius: 6px;
+    font-size: 11px;
+    color: #fca5a5;
+    line-height: 1.4;
+}
+
+.note-row strong {
+    color: #ef4444;
+}
+
+/* Sidebar Hover Buttons Container */
+.sidebar-buttons {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 1000;
+}
+
+.side-btn-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.side-btn {
+    background: rgba(31, 41, 55, 0.8);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(75, 85, 99, 0.5);
+    color: #d1d5db;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: monospace;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.side-btn:hover {
+    background: #f59e0b;
+    color: #0d0f12;
+    border-color: #f59e0b;
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.6);
+}
+
+.side-toolbox {
+    position: absolute;
+    left: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%) scale(0.9);
+    width: 260px;
+    background: #16191e;
+    border: 1px solid #2d333b;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 12px;
+    color: #d1d5db;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    z-index: 1001;
+    line-height: 1.4;
+}
+
+.side-btn-wrapper:hover .side-toolbox {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) scale(1);
+}
+
+.side-toolbox strong {
+    color: #f59e0b;
+    display: block;
+    margin-bottom: 4px;
+    font-family: monospace;
+}
+</style>
+</head>
+<body>
+
+<!-- Left Sidebar Hover Buttons -->
+<div class="sidebar-buttons">
+    <div class="side-btn-wrapper">
+        <button class="side-btn">Disclaimer</button>
+        <div class="side-toolbox">
+            <strong>Disclaimer</strong>
+            This rating is not affiliated with BluePoch. All images and data belongs to their respective owners.
+        </div>
+    </div>
+
+    <div class="side-btn-wrapper">
+        <button class="side-btn">Contributors</button>
+        <div class="side-toolbox">
+            <strong>Contributors</strong>
+            shdemi, lh_umi, fyyru, 16.444
+        </div>
+    </div>
+
+    <div class="side-btn-wrapper">
+        <a href="https://bbs.nga.cn/thread.php?authorid=62426657" target="_blank" rel="noopener noreferrer" class="side-btn">NGA Post</a>
+        <div class="side-toolbox">
+            <strong>Data Source</strong>
+            Official NGA author discussion thread and stat sheets.
+        </div>
+    </div>
+</div>
+
+<!-- Header Section -->
+<div class="header-container">
+    <h2>Rating Selector 3.7</h2>
+    <div class="header-subtitle">Character Portrait Scale Values</div>
+</div>
+
+<div class="chart-container">
+    <div class="chart-baseline"></div>
+    <div class="chart-plot-area" id="plot-area">
+
+        <!-- GLOBAL TOOLTIP BOX -->
+        <div id="global-tooltip">
+            <div class="tooltip-header">
+                <img id="tip-img">
+                <div>
+                    <h3 id="tip-name"></h3>
+                    <div class="tip-pts-badge">
+                        <span id="tip-pts"></span>
+                        <span id="tip-badge-box" class="badge-box"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LIMIT BREAK PROGRESSION WIDGET -->
+            <div class="progression-section">
+                <div class="progression-title">PORTRAY GROWTH PROGRESSION</div>
+                <div class="progression-box" id="prog-box">
+                    <svg class="prog-svg" id="prog-svg">
+                        <path id="prog-path" d="" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <div class="prog-nodes" id="prog-nodes"></div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="mini-stat-box">
+                    <span class="mini-label">Explanation</span>
+                    <span id="tip-growth" class="mini-value"></span>
+                </div>
+            </div>
+
+            <div class="effect-row">
+                <span class="effect-label">Effect</span>
+                <span id="tip-effect"></span>
+            </div>
+
+            <div id="tip-note-container"></div>
+        </div>
+
+    </div>
+
+    <div class="axis-label" id="axis-container"></div>
+</div>
+
+<script>
+const plot = document.getElementById("plot-area");
+const axisContainer = document.getElementById("axis-container");
+const tooltip = document.getElementById("global-tooltip");
+const tipImg = document.getElementById("tip-img");
+const tipName = document.getElementById("tip-name");
+const tipPts = document.getElementById("tip-pts");
+const tipBadgeBox = document.getElementById("tip-badge-box");
+const tipGrowth = document.getElementById("tip-growth");
+const tipEffect = document.getElementById("tip-effect");
+const tipNoteContainer = document.getElementById("tip-note-container");
+const progSvgPath = document.getElementById("prog-path");
+const progNodesContainer = document.getElementById("prog-nodes");
+const progBox = document.getElementById("prog-box");
+
+// Generate 0.0 to 10.0 axis ticks programmatically
+for (let i = 0; i <= 10; i++) {
+    const span = document.createElement("span");
+    const leftPos = (i / 10) * 100;
+    span.style.left = leftPos + "%";
+    span.style.transform = "translateX(-50%)";
+    span.textContent = i.toFixed(1);
+    axisContainer.appendChild(span);
+}
+
+// Fetch both files concurrently using Promise.all
+Promise.all([
+    fetch('characters.json').then(res => res.json()),
+    fetch('progressions.json').then(res => res.json()).catch(() => ({})) // safe fallback if file missing
+])
+.then(([characters, progressionsData]) => {
+    characters.forEach(char => {
+        const leftPos = (char.rating / 10) * 100;
+        const bottomPos = char.growth * 4.5;
+
+        // 1. Create the vertical stem line
+        const stem = document.createElement("div");
+        stem.className = "char-stem";
+        stem.style.left = leftPos + "%";
+        stem.style.bottom = "0px";
+        stem.style.height = Math.max(15, bottomPos - 15) + "px";
+        plot.appendChild(stem);
+
+        // 2. Create the character marker icon
+        const marker = document.createElement("div");
+        marker.className = "char-marker";
+        marker.style.left = leftPos + "%";
+        marker.style.bottom = bottomPos + "px";
+
+        const noteBadgeHTML = char.note ? '<div class="note-badge">!</div>' : '';
+
+        marker.innerHTML = `
+            <img src="${char.img}">
+            <div class="portrait-badge">${char.badge}</div>
+            ${noteBadgeHTML}
+        `;
+
+        // 3. Create the rating label directly below the marker
+        const ratingLabel = document.createElement("div");
+        ratingLabel.className = "rating-label";
+        ratingLabel.style.left = leftPos + "%";
+        ratingLabel.style.bottom = (bottomPos - 16) + "px";
+        ratingLabel.textContent = Number(char.rating).toFixed(1);
+        plot.appendChild(ratingLabel);
+
+        marker.addEventListener("mouseenter", () => {
+            tipImg.src = char.img;
+            tipName.textContent = char.name;
+            tipPts.textContent = char.pts;
+            tipBadgeBox.textContent = char.badge;
+            tipGrowth.textContent = char.info;
+            tipEffect.innerHTML = char.effect;
+
+            if (char.note) {
+                tipNoteContainer.innerHTML = `
+                    <div class="note-row">
+                        <strong>Note:</strong> ${char.note}
+                    </div>
+                `;
+            } else {
+                tipNoteContainer.innerHTML = "";
+            }
+
+            // Render Limit Break Progression Chart pulling from either separate progressionsData or inline char data
+            progNodesContainer.innerHTML = "";
+            progSvgPath.setAttribute("d", "");
+
+            // Look up progression data by character name from external source, or fallback to inline
+            const charProgression = (progressionsData && progressionsData[char.name]) || char.progression;
+
+            if (charProgression && Array.isArray(charProgression) && charProgression.length > 0) {
+                const values = charProgression.map(p => p.val);
+                const minVal = Math.min(...values);
+                const maxVal = Math.max(...values);
+                const range = maxVal - minVal || 1;
+
+                const plotHeightArea = 48; 
+                const plotTopOffset = 72; 
+
+                let nodeElements = [];
+
+                charProgression.forEach((step) => {
+                    const normalized = (step.val - minVal) / range;
+                    const verticalOffset = plotTopOffset - (normalized * plotHeightArea);
+
+                    const nodeEl = document.createElement("div");
+                    nodeEl.className = "prog-node";
+                    nodeEl.style.top = verticalOffset + "px";
+
+                    nodeEl.innerHTML = `
+                        <div class="node-badge">${step.badge}</div>
+                        <div class="node-dot"></div>
+                        <div class="node-value">${step.val}%</div>
+                    `;
+                    progNodesContainer.appendChild(nodeEl);
+                    nodeElements.push({ el: nodeEl });
+                });
+
+                const updateSvgPath = () => {
+                    const boxRect = progBox.getBoundingClientRect();
+                    let pathString = "";
+
+                    nodeElements.forEach((item, index) => {
+                        const dot = item.el.querySelector(".node-dot");
+                        const dotRect = dot.getBoundingClientRect();
+
+                        const x = (dotRect.left + dotRect.width / 2) - boxRect.left;
+                        const y = (dotRect.top + dotRect.height / 2) - boxRect.top;
+
+                        if (index === 0) {
+                            pathString += `M ${x} ${y}`;
+                        } else {
+                            pathString += ` L ${x} ${y}`;
+                        }
+                    });
+
+                    progSvgPath.setAttribute("d", pathString);
+                };
+
+                setTimeout(() => {
+                    nodeElements.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.el.classList.add("animate-in");
+                            updateSvgPath();
+                        }, index * 60); 
+                    });
+                }, 20);
+
+                const intervalId = setInterval(updateSvgPath, 20);
+                marker.addEventListener("mouseleave", () => {
+                    clearInterval(intervalId);
+                    tooltip.classList.remove("active");
+                }, { once: true });
+            }
+
+            // Position the tooltip first so measurements are correct
+            const m = marker.getBoundingClientRect();
+            const p = plot.getBoundingClientRect();
+
+            tooltip.style.left = (m.left - p.left + (m.width / 2) + 12) + "px";
+            tooltip.style.top = (m.top - p.top + (m.height / 2) - (tooltip.offsetHeight / 2)) + "px";
+
+            // Trigger smooth pop-up spring animation via CSS class
+            tooltip.classList.add("active");
+        });
+
+        marker.addEventListener("mouseleave", () => {
+            tooltip.classList.remove("active");
+        });
+
+        plot.appendChild(marker);
+    });
+});
+</script>
+
+</body>
+</html>

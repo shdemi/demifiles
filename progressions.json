@@ -1,0 +1,26 @@
+{
+  "Lorentz Butterfly": [
+    { "badge": "P0", "val": 100 },
+    { "badge": "P1", "val": 118 },
+    { "badge": "P2", "val": 133.2 },
+    { "badge": "P3", "val": 138.9 },
+    { "badge": "P4", "val": 145 },
+    { "badge": "P5", "val": 155.5 }
+  ],
+  "Flutterpage": [
+    { "badge": "P0", "val": 100 },
+    { "badge": "P1", "val": 120 },
+    { "badge": "P2", "val": 126.5 },
+    { "badge": "P3", "val": 148.7 },
+    { "badge": "P4", "val": 160.7 },
+    { "badge": "P5", "val": 176.7 }
+  ],
+  "Ramona": [
+    { "badge": "P0", "val": 100 },
+    { "badge": "P1", "val": 136 },
+    { "badge": "P2", "val": 161 },
+    { "badge": "P3", "val": 173 },
+    { "badge": "P4", "val": 178 },
+    { "badge": "P5", "val": 214 }
+  ]
+}
