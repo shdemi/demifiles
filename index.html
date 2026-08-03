@@ -6,10 +6,12 @@
 <title>Character Power Distribution</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
+
 body {
     margin: 0;
     background: #000000;
-    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    font-family: 'gg sans', 'Noto Sans', 'Segoe UI', Arial, Helvetica, sans-serif;
     color: white;
     display: flex;
     justify-content: center;
@@ -172,7 +174,7 @@ body {
     }
 }
 
-/* Tooltip Styling */
+/* Tooltip Styling - Increased z-index to stay on top of sidebar buttons */
 #global-tooltip {
     position: absolute;
     width: 300px;
@@ -183,7 +185,7 @@ body {
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 24px 50px rgba(0, 0, 0, 0.9);
-    z-index: 999;
+    z-index: 9999;
     display: block;
     opacity: 0;
     transform: scale(0.4) translateY(20px);
@@ -210,6 +212,7 @@ body {
         transform-origin: center center !important;
         max-height: 85vh;
         overflow-y: auto;
+        z-index: 9999 !important;
     }
     #global-tooltip.active {
         transform: translate(-50%, -50%) scale(1) !important;
@@ -410,7 +413,7 @@ body {
     color: #ef4444;
 }
 
-/* Sidebar Hover Buttons Container */
+/* Sidebar Hover Buttons Container - Lower z-index so tooltip stays on top */
 .sidebar-buttons {
     position: fixed;
     left: 10px;
@@ -419,7 +422,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    z-index: 1000;
+    z-index: 100;
 }
 
 .side-btn-wrapper {
@@ -435,7 +438,7 @@ body {
     padding: 8px 12px;
     border-radius: 8px;
     font-size: 11px;
-    font-family: monospace;
+    font-family: 'gg sans', 'Noto Sans', monospace;
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
@@ -467,7 +470,7 @@ body {
     visibility: hidden;
     transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     pointer-events: none;
-    z-index: 1001;
+    z-index: 101;
     line-height: 1.4;
 }
 
@@ -481,7 +484,7 @@ body {
     color: #f59e0b;
     display: block;
     margin-bottom: 4px;
-    font-family: monospace;
+    font-family: 'gg sans', 'Noto Sans', monospace;
 }
 </style>
 </head>
