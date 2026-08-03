@@ -12,33 +12,10 @@ body {
     font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
     color: white;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 95vh;
-}
-
-/* Styled Header Container */
-.header-container {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-h2 {
-    color: #f3f4f6;
-    font-weight: 600;
-    font-size: 26px;
-    letter-spacing: 0.5px;
-    margin: 0 0 6px 0;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-}
-
-.header-subtitle {
-    color: #9ca3af;
-    font-size: 13px;
-    font-family: monospace;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .chart-container {
@@ -95,13 +72,14 @@ h2 {
     background: #1f2937;
     cursor: pointer;
     transform: translateX(-50%);
-    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s;
     z-index: 10;
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    -webkit-tap-highlight-color: transparent;
 }
 
-.char-marker:hover {
-    transform: translateX(-50%) scale(1.2);
+.char-marker:hover, .char-marker.active-touch {
+    transform: translateX(-50%) scale(1.15);
     box-shadow: 0 0 18px rgba(245, 158, 11, 0.8);
     z-index: 30;
     border-color: #fbbf24;
@@ -169,10 +147,36 @@ h2 {
     z-index: 5;
 }
 
+/* Mobile Character Marker Size Adjustment */
+@media (max-width: 768px), (pointer: coarse) {
+    .char-marker {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+    }
+    
+    .portrait-badge {
+        font-size: 8px;
+        padding: 0px 2px;
+    }
+    
+    .note-badge {
+        width: 12px;
+        height: 12px;
+        font-size: 8px;
+    }
+
+    .rating-label {
+        font-size: 9px;
+        padding: 1px 4px;
+    }
+}
+
 /* Tooltip Styling */
 #global-tooltip {
     position: absolute;
-    width: 340px;
+    width: 300px;
+    max-width: 85vw;
     pointer-events: none;
     background: #16191e;
     border: 1px solid #2d333b;
@@ -194,6 +198,22 @@ h2 {
     opacity: 1;
     transform: scale(1) translateY(0);
     visibility: visible;
+}
+
+/* Mobile Screen Center Overlay Mode */
+@media (max-width: 768px), (pointer: coarse) {
+    #global-tooltip {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) scale(0.9) !important;
+        transform-origin: center center !important;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+    #global-tooltip.active {
+        transform: translate(-50%, -50%) scale(1) !important;
+    }
 }
 
 .tooltip-header {
@@ -393,12 +413,12 @@ h2 {
 /* Sidebar Hover Buttons Container */
 .sidebar-buttons {
     position: fixed;
-    left: 20px;
+    left: 10px;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     z-index: 1000;
 }
 
@@ -412,9 +432,9 @@ h2 {
     backdrop-filter: blur(5px);
     border: 1px solid rgba(75, 85, 99, 0.5);
     color: #d1d5db;
-    padding: 10px 16px;
+    padding: 8px 12px;
     border-radius: 8px;
-    font-size: 12px;
+    font-size: 11px;
     font-family: monospace;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -428,20 +448,19 @@ h2 {
     background: #f59e0b;
     color: #0d0f12;
     border-color: #f59e0b;
-    box-shadow: 0 0 14px rgba(245, 158, 11, 0.6);
 }
 
 .side-toolbox {
     position: absolute;
-    left: calc(100% + 12px);
+    left: calc(100% + 10px);
     top: 50%;
     transform: translateY(-50%) scale(0.9);
-    width: 260px;
+    width: 220px;
     background: #16191e;
     border: 1px solid #2d333b;
     border-radius: 8px;
-    padding: 12px;
-    font-size: 12px;
+    padding: 10px;
+    font-size: 11px;
     color: #d1d5db;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
     opacity: 0;
@@ -468,7 +487,6 @@ h2 {
 </head>
 <body>
 
-<!-- Left Sidebar Hover Buttons -->
 <div class="sidebar-buttons">
     <div class="side-btn-wrapper">
         <button class="side-btn">Disclaimer</button>
@@ -493,12 +511,6 @@ h2 {
             Official NGA author discussion thread and stat sheets.
         </div>
     </div>
-</div>
-
-<!-- Header Section -->
-<div class="header-container">
-    <h2>Rating Selector 3.7</h2>
-    <div class="header-subtitle">Character Portrait Scale Values</div>
 </div>
 
 <div class="chart-container">
@@ -564,7 +576,18 @@ const progSvgPath = document.getElementById("prog-path");
 const progNodesContainer = document.getElementById("prog-nodes");
 const progBox = document.getElementById("prog-box");
 
-// Generate 0.0 to 10.0 axis ticks programmatically
+let activeMarker = null;
+let activeInterval = null;
+let progressionsCache = {};
+
+// Preload progressions.json
+fetch('progressions.json')
+    .then(res => res.json())
+    .then(data => {
+        progressionsCache = data;
+    })
+    .catch(err => console.log("Progressions data not loaded:", err));
+
 for (let i = 0; i <= 10; i++) {
     const span = document.createElement("span");
     const leftPos = (i / 10) * 100;
@@ -574,154 +597,178 @@ for (let i = 0; i <= 10; i++) {
     axisContainer.appendChild(span);
 }
 
-// Fetch both files concurrently using Promise.all
-Promise.all([
-    fetch('characters.json').then(res => res.json()),
-    fetch('progressions.json').then(res => res.json()).catch(() => ({})) // safe fallback if file missing
-])
-.then(([characters, progressionsData]) => {
-    characters.forEach(char => {
-        const leftPos = (char.rating / 10) * 100;
-        const bottomPos = char.growth * 4.5;
-
-        // 1. Create the vertical stem line
-        const stem = document.createElement("div");
-        stem.className = "char-stem";
-        stem.style.left = leftPos + "%";
-        stem.style.bottom = "0px";
-        stem.style.height = Math.max(15, bottomPos - 15) + "px";
-        plot.appendChild(stem);
-
-        // 2. Create the character marker icon
-        const marker = document.createElement("div");
-        marker.className = "char-marker";
-        marker.style.left = leftPos + "%";
-        marker.style.bottom = bottomPos + "px";
-
-        const noteBadgeHTML = char.note ? '<div class="note-badge">!</div>' : '';
-
-        marker.innerHTML = `
-            <img src="${char.img}">
-            <div class="portrait-badge">${char.badge}</div>
-            ${noteBadgeHTML}
-        `;
-
-        // 3. Create the rating label directly below the marker
-        const ratingLabel = document.createElement("div");
-        ratingLabel.className = "rating-label";
-        ratingLabel.style.left = leftPos + "%";
-        ratingLabel.style.bottom = (bottomPos - 16) + "px";
-        ratingLabel.textContent = Number(char.rating).toFixed(1);
-        plot.appendChild(ratingLabel);
-
-        marker.addEventListener("mouseenter", () => {
-            tipImg.src = char.img;
-            tipName.textContent = char.name;
-            tipPts.textContent = char.pts;
-            tipBadgeBox.textContent = char.badge;
-            tipGrowth.textContent = char.info;
-            tipEffect.innerHTML = char.effect;
-
-            if (char.note) {
-                tipNoteContainer.innerHTML = `
-                    <div class="note-row">
-                        <strong>Note:</strong> ${char.note}
-                    </div>
-                `;
-            } else {
-                tipNoteContainer.innerHTML = "";
-            }
-
-            // Render Limit Break Progression Chart pulling from either separate progressionsData or inline char data
-            progNodesContainer.innerHTML = "";
-            progSvgPath.setAttribute("d", "");
-
-            // Look up progression data by character name from external source, or fallback to inline
-            const charProgression = (progressionsData && progressionsData[char.name]) || char.progression;
-
-            if (charProgression && Array.isArray(charProgression) && charProgression.length > 0) {
-                const values = charProgression.map(p => p.val);
-                const minVal = Math.min(...values);
-                const maxVal = Math.max(...values);
-                const range = maxVal - minVal || 1;
-
-                const plotHeightArea = 48; 
-                const plotTopOffset = 72; 
-
-                let nodeElements = [];
-
-                charProgression.forEach((step) => {
-                    const normalized = (step.val - minVal) / range;
-                    const verticalOffset = plotTopOffset - (normalized * plotHeightArea);
-
-                    const nodeEl = document.createElement("div");
-                    nodeEl.className = "prog-node";
-                    nodeEl.style.top = verticalOffset + "px";
-
-                    nodeEl.innerHTML = `
-                        <div class="node-badge">${step.badge}</div>
-                        <div class="node-dot"></div>
-                        <div class="node-value">${step.val}%</div>
-                    `;
-                    progNodesContainer.appendChild(nodeEl);
-                    nodeElements.push({ el: nodeEl });
-                });
-
-                const updateSvgPath = () => {
-                    const boxRect = progBox.getBoundingClientRect();
-                    let pathString = "";
-
-                    nodeElements.forEach((item, index) => {
-                        const dot = item.el.querySelector(".node-dot");
-                        const dotRect = dot.getBoundingClientRect();
-
-                        const x = (dotRect.left + dotRect.width / 2) - boxRect.left;
-                        const y = (dotRect.top + dotRect.height / 2) - boxRect.top;
-
-                        if (index === 0) {
-                            pathString += `M ${x} ${y}`;
-                        } else {
-                            pathString += ` L ${x} ${y}`;
-                        }
-                    });
-
-                    progSvgPath.setAttribute("d", pathString);
-                };
-
-                setTimeout(() => {
-                    nodeElements.forEach((item, index) => {
-                        setTimeout(() => {
-                            item.el.classList.add("animate-in");
-                            updateSvgPath();
-                        }, index * 60); 
-                    });
-                }, 20);
-
-                const intervalId = setInterval(updateSvgPath, 20);
-                marker.addEventListener("mouseleave", () => {
-                    clearInterval(intervalId);
-                    tooltip.classList.remove("active");
-                }, { once: true });
-            }
-
-            // Position the tooltip first so measurements are correct
-            const m = marker.getBoundingClientRect();
-            const p = plot.getBoundingClientRect();
-
-            tooltip.style.left = (m.left - p.left + (m.width / 2) + 12) + "px";
-            tooltip.style.top = (m.top - p.top + (m.height / 2) - (tooltip.offsetHeight / 2)) + "px";
-
-            // Trigger smooth pop-up spring animation via CSS class
-            tooltip.classList.add("active");
-        });
-
-        marker.addEventListener("mouseleave", () => {
-            tooltip.classList.remove("active");
-        });
-
-        plot.appendChild(marker);
-    });
+// Close tooltip when clicking outside chart elements
+document.addEventListener("click", (e) => {
+    if (!e.target.closest('.char-marker') && !e.target.closest('#global-tooltip')) {
+        hideTooltip();
+    }
 });
+
+function hideTooltip() {
+    tooltip.classList.remove("active");
+    if (activeMarker) {
+        activeMarker.classList.remove("active-touch");
+        activeMarker = null;
+    }
+    if (activeInterval) {
+        clearInterval(activeInterval);
+        activeInterval = null;
+    }
+}
+
+function showTooltip(char, marker) {
+    if (activeMarker && activeMarker !== marker) {
+        activeMarker.classList.remove("active-touch");
+    }
+    activeMarker = marker;
+    activeMarker.classList.add("active-touch");
+
+    tipImg.src = char.img;
+    tipName.textContent = char.name;
+    tipPts.textContent = char.pts;
+    tipBadgeBox.textContent = char.badge;
+    tipGrowth.textContent = char.info;
+    tipEffect.innerHTML = char.effect;
+
+    if (char.note) {
+        tipNoteContainer.innerHTML = `<div class="note-row"><strong>Note:</strong> ${char.note}</div>`;
+    } else {
+        tipNoteContainer.innerHTML = "";
+    }
+
+    progNodesContainer.innerHTML = "";
+    progSvgPath.setAttribute("d", "");
+
+    // Pull progression array using character name key from progressions.json
+    const charProgression = progressionsCache[char.name] || char.progression;
+
+    if (charProgression && Array.isArray(charProgression) && charProgression.length > 0) {
+        const values = charProgression.map(p => p.val);
+        const minVal = Math.min(...values);
+        const maxVal = Math.max(...values);
+        const range = maxVal - minVal || 1;
+
+        const plotHeightArea = 48; 
+        const plotTopOffset = 72; 
+        let nodeElements = [];
+
+        charProgression.forEach((step) => {
+            const normalized = (step.val - minVal) / range;
+            const verticalOffset = plotTopOffset - (normalized * plotHeightArea);
+
+            const nodeEl = document.createElement("div");
+            nodeEl.className = "prog-node";
+            nodeEl.style.top = verticalOffset + "px";
+
+            nodeEl.innerHTML = `
+                <div class="node-badge">${step.badge}</div>
+                <div class="node-dot"></div>
+                <div class="node-value">${step.val}%</div>
+            `;
+            progNodesContainer.appendChild(nodeEl);
+            nodeElements.push({ el: nodeEl });
+        });
+
+        const updateSvgPath = () => {
+            const boxRect = progBox.getBoundingClientRect();
+            let pathString = "";
+
+            nodeElements.forEach((item, index) => {
+                const dot = item.el.querySelector(".node-dot");
+                const dotRect = dot.getBoundingClientRect();
+
+                const x = (dotRect.left + dotRect.width / 2) - boxRect.left;
+                const y = (dotRect.top + dotRect.height / 2) - boxRect.top;
+
+                if (index === 0) {
+                    pathString += `M ${x} ${y}`;
+                } else {
+                    pathString += ` L ${x} ${y}`;
+                }
+            });
+
+            progSvgPath.setAttribute("d", pathString);
+        };
+
+        setTimeout(() => {
+            nodeElements.forEach((item, index) => {
+                setTimeout(() => {
+                    item.el.classList.add("animate-in");
+                    updateSvgPath();
+                }, index * 60); 
+            });
+        }, 20);
+
+        if (activeInterval) clearInterval(activeInterval);
+        activeInterval = setInterval(updateSvgPath, 20);
+    }
+
+    const isMobile = window.matchMedia("(max-width: 768px), (pointer: coarse)").matches;
+    if (!isMobile) {
+        const m = marker.getBoundingClientRect();
+        const p = plot.getBoundingClientRect();
+
+        tooltip.style.left = (m.left - p.left + (m.width / 2) + 12) + "px";
+        tooltip.style.top = Math.max(10, (m.top - p.top + (m.height / 2) - (tooltip.offsetHeight / 2))) + "px";
+    }
+
+    tooltip.classList.add("active");
+}
+
+fetch('characters.json')
+    .then(res => res.json())
+    .then(characters => {
+        characters.forEach(char => {
+            const leftPos = (char.rating / 10) * 100;
+            const bottomPos = char.growth * 4.5;
+
+            const stem = document.createElement("div");
+            stem.className = "char-stem";
+            stem.style.left = leftPos + "%";
+            stem.style.bottom = "0px";
+            stem.style.height = Math.max(15, bottomPos - 15) + "px";
+            plot.appendChild(stem);
+
+            const marker = document.createElement("div");
+            marker.className = "char-marker";
+            marker.style.left = leftPos + "%";
+            marker.style.bottom = bottomPos + "px";
+
+            const noteBadgeHTML = char.note ? '<div class="note-badge">!</div>' : '';
+
+            marker.innerHTML = `
+                <img src="${char.img}">
+                <div class="portrait-badge">${char.badge}</div>
+                ${noteBadgeHTML}
+            `;
+
+            const ratingLabel = document.createElement("div");
+            ratingLabel.className = "rating-label";
+            ratingLabel.style.left = leftPos + "%";
+            ratingLabel.style.bottom = (bottomPos - 16) + "px";
+            ratingLabel.textContent = Number(char.rating).toFixed(1);
+            plot.appendChild(ratingLabel);
+
+            marker.addEventListener("click", (e) => {
+                e.stopPropagation();
+                showTooltip(char, marker);
+            });
+
+            marker.addEventListener("mouseenter", () => {
+                if (window.matchMedia("(pointer: fine)").matches) {
+                    showTooltip(char, marker);
+                }
+            });
+
+            marker.addEventListener("mouseleave", () => {
+                if (window.matchMedia("(pointer: fine)").matches) {
+                    hideTooltip();
+                }
+            });
+
+            plot.appendChild(marker);
+        });
+    });
 </script>
 
 </body>
