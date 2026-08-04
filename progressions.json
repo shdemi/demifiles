@@ -1,26 +1,42 @@
 {
   "Lorentz Butterfly": [
-    { "badge": "P0", "val": 100 },
-    { "badge": "P1", "val": 118 },
-    { "badge": "P2", "val": 133.2 },
-    { "badge": "P3", "val": 138.9 },
-    { "badge": "P4", "val": 145 },
-    { "badge": "P5", "val": 155.5 }
+    { "badge": "P1", "val": 18 },
+    { "badge": "P2", "val": 15.2 },
+    { "badge": "P3", "val": 5.7 },
+    { "badge": "P4", "val": 6.1 },
+    { "badge": "P5", "val": 10.5 }
   ],
   "Flutterpage": [
-    { "badge": "P0", "val": 100 },
-    { "badge": "P1", "val": 120 },
-    { "badge": "P2", "val": 126.5 },
-    { "badge": "P3", "val": 148.7 },
-    { "badge": "P4", "val": 160.7 },
-    { "badge": "P5", "val": 176.7 }
+    { "badge": "P1", "val": 20 },
+    { "badge": "P2", "val": 6.5 },
+    { "badge": "P3", "val": 22.2 },
+    { "badge": "P4", "val": 12 },
+    { "badge": "P5", "val": 16 }
+  ],
+  "Corvus": [
+    { "badge": "P1", "val": 21 },
+    { "badge": "P2", "val": 35 },
+    { "badge": "P3", "val": 11.6 },
+    { "badge": "P4", "val": 11.3 },
+    { "badge": "P5", "val": 11.9 }
+  ],
+  "Rubuska": [
+    { "badge": "P1", "val": 11.3 },
+    { "badge": "P2", "val": 11.5 },
+    { "badge": "P3", "val": 0.1 },
+    { "badge": "P4", "val": 2.9 },
+    { "badge": "P5", "val": 15.5 }
+  ],
+  "Tooth Fairy": [
+    { "badge": "P1", "val": 8 },
+    { "badge": "P2", "val": 14 },
+    { "badge": "P5", "val": 14 }
   ],
   "Ramona": [
-    { "badge": "P0", "val": 100 },
-    { "badge": "P1", "val": 136 },
-    { "badge": "P2", "val": 161 },
-    { "badge": "P3", "val": 173 },
-    { "badge": "P4", "val": 178 },
-    { "badge": "P5", "val": 214 }
+    { "badge": "P1", "val": 36.08 },
+    { "badge": "P2", "val": 25.2 },
+    { "badge": "P3", "val": 11.82 },
+    { "badge": "P4", "val": 5.28 },
+    { "badge": "P5", "val": 35.8 }
   ]
 }
