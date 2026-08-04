@@ -16,7 +16,7 @@
     "name": "Flutterpage",
     "pts": "Rating: 8.8",
     "tier": "0",
-    "info": "I don't even know why she is still good.",
+    "info": "Her value is still good despite being an old character.",
     "effect": "The duration of <span style='color: #60a5fa;'>[Continuous Action I]</span> is increased to 2 rounds.",
     "img": "./images/Flutterpage_Icon.webp",
     "badge": "P1"
@@ -27,8 +27,8 @@
     "name": "Ramona",
     "pts": "Rating: 8.5",
     "tier": "0",
-    "info": "WIP.",
-    "effect": "WIP.",
+    "info": "36% improvement in dealing dmg, only invest if you have poison allies.",
+    "effect": "<span style='color: #60a5fa;'>[Clear Shadow]</span>: Ramona now gains Moxie +3 when entering battle. <span style='color: #60a5fa;'>[Marigold Method]</span> now deals <span style='color: #eab308;'>400%</span> Mental DMG and inflicts 2 instances of <span style='color: #60a5fa;'>[Poison]</span> and 2 stacks of <span style='color: #60a5fa;'>[Spirit Repellent]</span>.",
     "img": "./images/Ramona_Icon.webp",
     "badge": "P1"
   },
@@ -38,8 +38,8 @@
     "name": "Corvus",
     "pts": "Rating: 8.3",
     "tier": "-",
-    "info": "-",
-    "effect": "-",
+    "info": "Trigger FuA 2 times is insanely op.",
+    "effect": "<span style='color: #60a5fa;'>[Sewn into Forever]</span>: Triggers <span style='color: #60a5fa;'>[Sew It All Up]</span> 2 times.",
     "img": "./images/Corvus_Icon.webp",
     "badge": "P2"
   },
@@ -49,8 +49,8 @@
     "name": "Ramona",
     "pts": "Rating: 8.0",
     "tier": "-",
-    "info": "-",
-    "effect": "-",
+    "info": "25% improvement, not as good as her P1, but still good.",
+    "effect": "<span style='color: #60a5fa;'>[For the Peace of Both Worlds]</span>: <span style='color: #60a5fa;'>[Expellant]</span> now deals (number of transformed <span style='color: #60a5fa;'>[Poison]</span> instances x the user's <span style='color: #eab308;'>ATK</span> x<span style='color: #eab308;'>75%</span>) Genesis DMG. <span style='color: #60a5fa;'>[Expellant]</span> now gains resolve DMG <span style='color: #eab308;'>+35%</span> for each round it has lasted, and it now deals (number of rounds lasted x the user's <span style='color: #eab308;'>ATK</span> x<span style='color: #eab308;'>550%</span>) Genesis DMG at the end of its duration. <span style='color: #60a5fa;'>[Efficient Exorcist]</span> now lasts 3 rounds.",
     "img": "./images/Ramona_Icon.webp",
     "badge": "P2"
   },
@@ -60,8 +60,8 @@
     "name": "Tooth Fairy",
     "pts": "Rating: 7.8",
     "tier": "-",
-    "info": "+30%",
-    "effect": "",
+    "info": "P2 simply a boost in dmg output for Paper Heron's team.",
+    "effect": "<span style='color: #60a5fa;'>[Baby Tooth Collector]</span>: <span style='color: #60a5fa;'>[Decayed Tooth]</span> now lasts 2 rounds and stacks up to 7 times. Tooth Fairy now grants DMG Dealt to the first 4 attack instances of <span style='color: #60a5fa;'>[Impromptu Incantation]</span> for the round. <br><span style='color: #60a5fa;'>[Song for the Bad Tooth]</span>: <span style='color: #60a5fa;'>[Neuralgia]</span> now triggers up to 4 times and deals (the corresponding Impromptu Incantation attack instance's total DMG <span style='color: #eab308;'>x40%</span>) <span style='color: #60a5fa;'>[Static Genesis DMG]</span> per trigger.",
     "img": "./images/Tooth_Fairy_Icon.webp",
     "badge": "P2"
   },
@@ -72,7 +72,7 @@
     "pts": "Rating: 7.7",
     "tier": "-",
     "info": "-",
-    "effect": "-",
+    "effect": "<span style='color: #60a5fa;'>[In Mother's Arms]</span>: At incantation rank <span style='color: #eab308;'>1/2/3</span>, the Genesis DMG Taken is now <span style='color: #eab308;'>+30%/40%/50%</span>, and the <span style='color: #eab308;'>Critical Resist Rate</span> is now <span style='color: #eab308;'>-25%</span> (additionally <span style='color: #eab308;'>-30%</span> to targets in the <span style='color: #60a5fa;'>[Poison]</span> status).",
     "img": "./images/Tuesday_Icon.webp",
     "badge": "P2"
   },
@@ -83,7 +83,7 @@
     "pts": "Rating: 7.6",
     "tier": "-",
     "info": "-",
-    "effect": "-",
+    "effect": "<span style='color: #60a5fa;'>[Clarity in Clefs]</span>: <span style='color: #60a5fa;'>[Symphonic Unity]</span> now lasts 4 rounds and grants <span style='color: #eab308;'>Critical Rate +50%</span>, with <span style='color: #eab308;'>Critical DMG</span> Conversion Rate increased to <span style='color: #eab308;'>30%</span>, and upper limit increased to <span style='color: #eab308;'>72%</span>; one <span style='color: #60a5fa;'>[Mineral Energy I]</span> grants 2 Mineral Energy.",
     "img": "./images/Coppelia_Icon.webp",
     "badge": "P1"
   },
@@ -94,7 +94,7 @@
     "pts": "Rating: 7.5",
     "tier": "-",
     "info": "-",
-    "effect": "-",
+    "effect": "<span style='color: #60a5fa;'>[Sewn into Forever]</span>: Mental DMG dealt increased to <span style='color: #eab308;'>1200%</span>. Stacks of <span style='color: #60a5fa;'>[Breaking Point]</span> inflicted increased to 2. <span style='color: #60a5fa;'>[Welding]</span>'s <span style='color: #eab308;'>Mental DEF</span> reduction effect increased to <span style='color: #eab308;'>-2%</span> for each attack, stackable up to <span style='color: #eab308;'>-100%</span>.",
     "img": "./images/Corvus_Icon.webp",
     "badge": "P1"
   },
