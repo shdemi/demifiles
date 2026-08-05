@@ -11,10 +11,10 @@
     "badge": "P1"
   },
   {
-    "rating": 8.8,
-    "growth": 5,
+    "rating": 9.5,
+    "growth": 20,
     "name": "Flutterpage",
-    "pts": "Rating: 8.8",
+    "pts": "Rating: 9.5",
     "tier": "0",
     "info": "Her value is still good despite being an old character.",
     "effect": "The duration of <span style='color: #60a5fa;'>[Continuous Action I]</span> is increased to 2 rounds.",
@@ -23,7 +23,7 @@
   },
   {
     "rating": 8.5,
-    "growth": 20,
+    "growth": 5,
     "name": "Ramona",
     "pts": "Rating: 8.5",
     "tier": "0",
@@ -34,7 +34,7 @@
   },
   {
     "rating": 8.3,
-    "growth": 35,
+    "growth": 20,
     "name": "Corvus",
     "pts": "Rating: 8.3",
     "tier": "-",
@@ -45,7 +45,7 @@
   },
   {
     "rating": 8.2,
-    "growth": 50,
+    "growth": 35,
     "name": "Ramona",
     "pts": "Rating: 8.2",
     "tier": "-",
@@ -56,7 +56,7 @@
   },
   {
     "rating": 8,
-    "growth": 65,
+    "growth": 50,
     "name": "Tuesday",
     "pts": "Rating: 8.0",
     "tier": "-",
@@ -67,10 +67,10 @@
     "note": "Can be obtain using 3 batteries on Immaterial Photoscope."
   },
   {
-    "rating": 7.6,
+    "rating": 7.4,
     "growth": 5,
     "name": "Coppélia",
-    "pts": "Rating: 7.6",
+    "pts": "Rating: 7.4",
     "tier": "-",
     "info": "The Twins + this girl = explosion 💥🤯",
     "effect": "<span style='color: #60a5fa;'>[Clarity in Clefs]</span>: <span style='color: #60a5fa;'>[Symphonic Unity]</span> now lasts 4 rounds and grants <span style='color: #eab308;'>Critical Rate +50%</span>, with <span style='color: #eab308;'>Critical DMG</span> Conversion Rate increased to <span style='color: #eab308;'>30%</span>, and upper limit increased to <span style='color: #eab308;'>72%</span>; one <span style='color: #60a5fa;'>[Mineral Energy I]</span> grants 2 Mineral Energy.",
@@ -78,10 +78,10 @@
     "badge": "P1"
   },
   {
-    "rating": 7.5,
+    "rating": 7.2,
     "growth": 20,
     "name": "Corvus",
-    "pts": "Rating: 7.5",
+    "pts": "Rating: 7.2",
     "tier": "-",
     "info": "21% increase in damage dealing 🤔.",
     "effect": "<span style='color: #60a5fa;'>[Sewn into Forever]</span>: Mental DMG dealt increased to <span style='color: #eab308;'>1200%</span>. Stacks of <span style='color: #60a5fa;'>[Breaking Point]</span> inflicted increased to 2. <span style='color: #60a5fa;'>[Welding]</span>'s <span style='color: #eab308;'>Mental DEF</span> reduction effect increased to <span style='color: #eab308;'>-2%</span> for each attack, stackable up to <span style='color: #eab308;'>-100%</span>.",
@@ -89,10 +89,10 @@
     "badge": "P1"
   },
   {
-    "rating": 7.4,
+    "rating": 7.1,
     "growth": 35,
     "name": "Brume",
-    "pts": "Rating: 7.4",
+    "pts": "Rating: 7.1",
     "tier": "0",
     "info": "A decent boost in damage. 33%.",
     "effect": "<span style='color: #60a5fa;'>[Left-Hand Steering] [Improvised Detour]</span>: The additional Mental DMG dealt by <span style='color: #60a5fa;'>[Cost of the Roadside View]/[End of the Ride]</span> from <span style='color: #60a5fa;'>[Crystalline Discharge]</span> is increased to <span style='color: #eab308;'>120%/250%</span>. <span style='color: #60a5fa;'>[Calculated Path]</span>: At rank <span style='color: #eab308;'>1/2/3</span>, the amount of <span style='color: #60a5fa;'>[Thermoelectric Conversion]</span> gained is increased to <span style='color: #eab308;'>15/20/25</span> stacks. <span style='color: #60a5fa;'>[Cost of the Roadside View]</span>'s Mental DMG dealt is increased to <span style='color: #eab308;'>240%</span>. The additional Mental DMG dealt by one <span style='color: #60a5fa;'>[Cost of the Roadside View]</span> attack for every 10 stacks of <br><span style='color: #60a5fa;'>[Thermoelectric Conversion]</span> consumed by <span style='color: #60a5fa;'>[Prismatic Power]</span> is increased to <span style='color: #eab308;'>120%</span>. The maximum amount of <br><span style='color: #60a5fa;'>[Thermoelectric Conversion]</span> consumed per channel is increased to 80 stacks. The maximum number of extra times <span style='color: #60a5fa;'>[Cost of the Roadside View]</span> can be cast is increased to 3. <span style='color: #60a5fa;'>[The Unfated Hand]</span>: When <span style='color: #60a5fa;'>[Amplified Surge]</span> is under <span style='color: #60a5fa;'>[Pulsing Field Lv.3]</span>, the additional Mental DMG dealt by <span style='color: #60a5fa;'>[Cost of the Roadside View]</span> increased to <span style='color: #eab308;'>480%</span>.",
@@ -100,10 +100,10 @@
     "badge": "P1"
   },
   {
-    "rating": 7.3,
+    "rating": 7,
     "growth": 50,
     "name": "Flutterpage",
-    "pts": "Rating: 7.3",
+    "pts": "Rating: 7",
     "tier": "-",
     "info": "Not recommended.",
     "effect": "<span style='color: #60a5fa;'>['I Can Fly']</span>: When entering battle, the Moxie granted to self is increased to 3, and the stacks of <span style='color: #60a5fa;'>[Gust]</span> gained is increased to 20. For each stack of <span style='color: #60a5fa;'>[Gust]</span> Flutterpage has, the DMG Dealt and Genesis DMG granted by <span style='color: #60a5fa;'>[Wave of Sheets]</span> and <span style='color: #60a5fa;'>[Adieu, Mother Earth]</span> are increased to <span style='color: #eab308;'>2.5%</span>.",
@@ -111,10 +111,10 @@
     "badge": "P3"
   },
   {
-    "rating": 7,
+    "rating": 6.7,
     "growth": 65,
     "name": "Igor",
-    "pts": "Rating: 7.0",
+    "pts": "Rating: 6.7",
     "tier": "-",
     "info": "A daddy pick. Great increase in his damage dealing.",
     "effect": "Additional Reality DMG for each stack of <span style='color: #60a5fa;'>[Shrapnel]</span> when hit by Igor's Ultimate increased to <span style='color: #eab308;'>45%</span>. <span style='color: #60a5fa;'>[The Gryphon Legion]</span>: Igor now gains Moxie +2 when an ally casts an Ultimate.",
@@ -122,12 +122,12 @@
     "badge": "P1"
   },
   {
-    "rating": 1.5,
+    "rating": 5.6,
     "growth": 50,
     "name": "Recoleta",
-    "pts": "Rating: 1.5",
+    "pts": "Rating: 5.6",
     "tier": "-",
-    "info": "Only if you are planning to use Ms. Stranger with Recoleta.",
+    "info": "Only if you are planning to use her with Ms. Stranger, and J euphoria.",
     "effect": "<span style='color: #60a5fa;'>[Spontaneous Writing]</span>: When casting an ultimate, the maximum stack limit of <span style='color: #60a5fa;'>[Preparation · Recoleta]</span> is increased to 2.",
     "img": "./images/Recoleta_Icon.webp",
     "badge": "P1",
@@ -135,7 +135,7 @@
   },
   {
     "rating": 7.8,
-    "growth": 80,
+    "growth": 65,
     "name": "Coppélia",
     "pts": "Rating: 7.8",
     "tier": "-",
