@@ -63,7 +63,6 @@ body {
     font-size: 13px;
 }
 
-/* Character Markers & Stems */
 .char-marker {
     position: absolute;
     width: 44px;
@@ -133,7 +132,6 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-/* Rating label below character marker */
 .rating-label {
     position: absolute;
     transform: translateX(-50%);
@@ -174,7 +172,6 @@ body {
     }
 }
 
-/* Tooltip Styling - Increased z-index to stay on top of sidebar buttons */
 #global-tooltip {
     position: absolute;
     width: 300px;
@@ -202,7 +199,6 @@ body {
     visibility: visible;
 }
 
-/* Mobile Screen Center Overlay Mode */
 @media (max-width: 768px), (pointer: coarse) {
     #global-tooltip {
         position: fixed !important;
@@ -258,7 +254,6 @@ body {
     font-size: 11px;
 }
 
-/* Limit Break Progression Section inside Tooltip */
 .progression-section {
     margin-top: 10px;
 }
@@ -413,7 +408,6 @@ body {
     color: #ef4444;
 }
 
-/* Sidebar Hover Buttons Container - Lower z-index so tooltip stays on top */
 .sidebar-buttons {
     position: fixed;
     left: 10px;
@@ -503,7 +497,7 @@ body {
         <button class="side-btn">Contributors</button>
         <div class="side-toolbox">
             <strong>Contributors</strong>
-            shdemi, lh_umi, fyyru, 16.444
+            demi, lh_umi, fyyru, 16.444
         </div>
     </div>
 
@@ -520,7 +514,6 @@ body {
     <div class="chart-baseline"></div>
     <div class="chart-plot-area" id="plot-area">
 
-        <!-- GLOBAL TOOLTIP BOX -->
         <div id="global-tooltip">
             <div class="tooltip-header">
                 <img id="tip-img">
@@ -533,9 +526,8 @@ body {
                 </div>
             </div>
 
-            <!-- LIMIT BREAK PROGRESSION WIDGET -->
-            <div class="progression-section">
-                <div class="progression-title">PORTRAY GROWTH PROGRESSION</div>
+            <div class="progression-section" id="progression-section-container">
+                <div class="progression-title">PORTRAY VALUE GRAPH</div>
                 <div class="progression-box" id="prog-box">
                     <svg class="prog-svg" id="prog-svg">
                         <path id="prog-path" d="" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -544,7 +536,7 @@ body {
                 </div>
             </div>
 
-            <div class="stats-grid">
+            <div class="stats-grid" id="tip-stats-grid">
                 <div class="mini-stat-box">
                     <span class="mini-label">Explanation</span>
                     <span id="tip-growth" class="mini-value"></span>
@@ -572,9 +564,11 @@ const tipImg = document.getElementById("tip-img");
 const tipName = document.getElementById("tip-name");
 const tipPts = document.getElementById("tip-pts");
 const tipBadgeBox = document.getElementById("tip-badge-box");
+const tipStatsGrid = document.getElementById("tip-stats-grid");
 const tipGrowth = document.getElementById("tip-growth");
 const tipEffect = document.getElementById("tip-effect");
 const tipNoteContainer = document.getElementById("tip-note-container");
+const progressionSectionContainer = document.getElementById("progression-section-container");
 const progSvgPath = document.getElementById("prog-path");
 const progNodesContainer = document.getElementById("prog-nodes");
 const progBox = document.getElementById("prog-box");
@@ -583,7 +577,6 @@ let activeMarker = null;
 let activeInterval = null;
 let progressionsCache = {};
 
-// Preload progressions.json
 fetch('progressions.json')
     .then(res => res.json())
     .then(data => {
@@ -600,7 +593,6 @@ for (let i = 0; i <= 10; i++) {
     axisContainer.appendChild(span);
 }
 
-// Close tooltip when clicking outside chart elements
 document.addEventListener("click", (e) => {
     if (!e.target.closest('.char-marker') && !e.target.closest('#global-tooltip')) {
         hideTooltip();
@@ -630,7 +622,15 @@ function showTooltip(char, marker) {
     tipName.textContent = char.name;
     tipPts.textContent = char.pts;
     tipBadgeBox.textContent = char.badge;
-    tipGrowth.textContent = char.info;
+
+    if (char.info && char.info.trim() !== "") {
+        tipGrowth.textContent = char.info;
+        tipStatsGrid.style.display = "grid";
+    } else {
+        tipGrowth.textContent = "";
+        tipStatsGrid.style.display = "none";
+    }
+
     tipEffect.innerHTML = char.effect;
 
     if (char.note) {
@@ -641,11 +641,16 @@ function showTooltip(char, marker) {
 
     progNodesContainer.innerHTML = "";
     progSvgPath.setAttribute("d", "");
+    if (activeInterval) {
+        clearInterval(activeInterval);
+        activeInterval = null;
+    }
 
-    // Pull progression array using character name key from progressions.json
     const charProgression = progressionsCache[char.name] || char.progression;
 
     if (charProgression && Array.isArray(charProgression) && charProgression.length > 0) {
+        progressionSectionContainer.style.display = "block";
+
         const values = charProgression.map(p => p.val);
         const minVal = Math.min(...values);
         const maxVal = Math.max(...values);
@@ -702,8 +707,9 @@ function showTooltip(char, marker) {
             });
         }, 20);
 
-        if (activeInterval) clearInterval(activeInterval);
         activeInterval = setInterval(updateSvgPath, 20);
+    } else {
+        progressionSectionContainer.style.display = "none";
     }
 
     const isMobile = window.matchMedia("(max-width: 768px), (pointer: coarse)").matches;
